@@ -1,6 +1,9 @@
 pipeline {
     agent any
 
+    environment {
+        EMAIL = "qanatabbas14@gmail.com"
+    }
     stages {
         stage('Build') {
             steps {
@@ -16,14 +19,19 @@ pipeline {
 
     post {
         success {
-            mail to: 'qanatabbas14@gmail.com',
-                 subject: 'Jenkins Build Success: compulysis-webapp',
-                 body: "The Jenkins pipeline completed successfully.\n\nJob: ${env.JOB_NAME}\nBuild: ${env.BUILD_NUMBER}\nURL: ${env.BUILD_URL}"
+            emailext (
+                subject: "SUCCESS: ${env.JOB_NAME}",
+                body: "Build Successful ✅",
+                to: "${EMAIL}"
+            )
         }
+
         failure {
-            mail to: 'qanatabbas14@gmail.com',
-                 subject: 'Jenkins Build Failure: compulysis-webapp',
-                 body: "The Jenkins pipeline failed.\n\nJob: ${env.JOB_NAME}\nBuild: ${env.BUILD_NUMBER}\nURL: ${env.BUILD_URL}"
+            emailext (
+                subject: "FAILED: ${env.JOB_NAME}",
+                body: "Build Failed ❌",
+                to: "${EMAIL}"
+            )
         }
     }
 }
