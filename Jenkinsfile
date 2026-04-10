@@ -10,8 +10,8 @@ pipeline {
                 sh 'rm -rf compulysis-webapp'
                 sh 'git clone https://github.com/Qanat-Abbas/compulysis-webapp'
                 dir('compulysis-webapp') {
-                    sh 'docker compose down --remove-orphans'
-                    sh 'docker compose up -d'
+                    sh 'docker compose -p compulysis-production down --remove-orphans'
+                    sh 'docker compose -p compulysis-production up -d'
                 }
             }
         }
