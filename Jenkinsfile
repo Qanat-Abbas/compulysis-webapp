@@ -21,7 +21,7 @@ pipeline {
         success {
             emailext (
                 subject: "SUCCESS: ${env.JOB_NAME}",
-                body: "Build Successful ✅",
+                body: "Build Successfully completed! ✅",
                 to: "${EMAIL}"
             )
         }
@@ -29,7 +29,7 @@ pipeline {
         failure {
             emailext (
                 subject: "FAILED: ${env.JOB_NAME}",
-                body: "Build Failed ❌",
+                body: "Build Failed! ❌",
                 to: "${EMAIL}"
             )
         }
