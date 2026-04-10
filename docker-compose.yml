@@ -15,7 +15,7 @@ services:
       retries: 5
 
   backend:
-    image: zaibjahan200/compulysis-webapp:latest
+    image: qanatabbas/compulysis:v1
     container_name: compulysis-backend-jenkins
     depends_on:
       db:
@@ -27,7 +27,7 @@ services:
       BACKEND_CORS_ORIGINS: ${BACKEND_CORS_ORIGINS:-http://localhost:8000,http://127.0.0.1:8000}
       CORS_ALLOW_ORIGIN_REGEX: ""
     ports:
-      - "8001:8000"
+      - "8088:8000"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
     healthcheck:
       test: ["CMD", "python", "-c", "import sys, urllib.request; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/health', timeout=3).status == 200 else 1)"]
@@ -38,13 +38,13 @@ services:
     restart: unless-stopped
 
   frontend:
-    image: zaibjahan200/compulysis-webapp:latest
+    image: qanatabbas/compulysis:v1
     container_name: compulysis-frontend-jenkins
     depends_on:
       backend:
         condition: service_healthy
     ports:
-      - "8005:80"
+      - "8089:80"
     command: ["nginx", "-g", "daemon off;"]
     restart: unless-stopped
 
