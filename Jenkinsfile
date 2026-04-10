@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                sh 'rm -rf compulysis-webapp'
+                sh 'git clone https://github.com/Qanat-Abbas/compulysis-webapp'
+                dir('compulysis-webapp') {
+                    sh 'docker compose down --remove-orphans'
+                    sh 'docker compose up -d'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            mail to: 'qanatabbas14@gmail.com',
+                 subject: 'Jenkins Build Success: compulysis-webapp',
+                 body: "The Jenkins pipeline completed successfully.\n\nJob: ${env.JOB_NAME}\nBuild: ${env.BUILD_NUMBER}\nURL: ${env.BUILD_URL}"
+        }
+        failure {
+            mail to: 'qanatabbas14@gmail.com',
+                 subject: 'Jenkins Build Failure: compulysis-webapp',
+                 body: "The Jenkins pipeline failed.\n\nJob: ${env.JOB_NAME}\nBuild: ${env.BUILD_NUMBER}\nURL: ${env.BUILD_URL}"
+        }
+    }
+}
