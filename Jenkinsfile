@@ -21,7 +21,7 @@ pipeline {
         success {
             emailext (
                 subject: "SUCCESS: ${env.JOB_NAME}",
-                body: "Build Successfully completed! Well done Qanat. ✅",
+                body: "Build Successfully completed! Well done Qanat ✅",
                 to: "${EMAIL}"
             )
         }
